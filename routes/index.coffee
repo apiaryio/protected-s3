@@ -64,10 +64,11 @@ passport.deserializeUser (id, done) ->
 router.get '/', (req, res) ->
   res.render 'index', title: 'Protected S3 bucket'
 
-router.get '/auth/google', passport.authenticate 'google'
+router.get '/auth/google', passport.authenticate 'google', scope: 'openid email'
 
 router.get '/auth/google/return', 
   passport.authenticate 'google',
+    scope: 'openid email'
     successRedirect: '/buckets/'
     failureRedirect: '/'
 
