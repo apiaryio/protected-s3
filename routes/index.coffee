@@ -11,7 +11,7 @@ protocol = if !!process.env.USE_SSL then 'https' else 'http'
 strategy = new GoogleStrategy
     clientID:     process.env.GOOGLE_CLIENT_ID
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
-    callbackURL: "#{protocol}://#{process.env.DOMAIN or "127.0.0.1:3000"}/auth/google/callback"
+    callbackURL: "#{protocol}://#{process.env.DOMAIN or "127.0.0.1:3000"}/auth/google/return"
     # realm:     process.env.GOOGLE_REALM      or "http://localhost:#{process.env.PORT or 3000}/"
     # returnURL: process.env.GOOGLE_RETURN_URL or "http://localhost:#{process.env.PORT or 3000}/auth/google/return"
   , (accessToken, refreshToken, profile, done) ->
