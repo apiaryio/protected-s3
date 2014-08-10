@@ -1,16 +1,20 @@
 express        = require 'express'
 mimelib        = require 'mimelib'
 passport       = require 'passport'
-GoogleStrategy = require('passport-google').Strategy;
+GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 router = express.Router()
 
 
 # Configure google login
+protocol = if !!process.env.USE_SSL then 'https' else 'http'
 strategy = new GoogleStrategy
-    returnURL: process.env.GOOGLE_RETURN_URL or "http://localhost:#{process.env.PORT or 3000}/auth/google/return"
-    realm:     process.env.GOOGLE_REALM      or "http://localhost:#{process.env.PORT or 3000}/"
-  , (identifier, profile, done) ->
+    clientID:     process.env.GOOGLE_CLIENT_ID
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    callbackURL: "#{protocol}://#{process.env.DOMAIN or "127.0.0.1:3000"}/auth/google/callback"
+    # realm:     process.env.GOOGLE_REALM      or "http://localhost:#{process.env.PORT or 3000}/"
+    # returnURL: process.env.GOOGLE_RETURN_URL or "http://localhost:#{process.env.PORT or 3000}/auth/google/return"
+  , (accessToken, refreshToken, profile, done) ->
 
     ALLOWED_DOMAINS = (i.trim() for i in process.env.ALLOWED_DOMAINS?.split(',') or [])
 
@@ -18,7 +22,7 @@ strategy = new GoogleStrategy
       if process.env.NODE_ENV is 'production'
         return done new Error "ALLOWED_DOMAINS environment variable must be configured for production environment"
       else
-        user = openId: identifier, id: profile.emails[0].value        
+        user = id: profile.id
     
     else
       user = false
@@ -28,7 +32,7 @@ strategy = new GoogleStrategy
 
         for domain in ALLOWED_DOMAINS
           if domain is emailDomain
-            user = openId: identifier, id: email
+            user = id: profile.id
             break
 
     USERS[user.id] = user if user

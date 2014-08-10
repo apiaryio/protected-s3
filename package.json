@@ -17,7 +17,8 @@
     "passport-google": "~0.3.0",
     "express-session": "~1.7.4",
     "mimelib": "~0.2.17",
-    "knox": "~0.9.0"
+    "knox": "~0.9.0",
+    "passport-google-oauth": "~0.1.5"
   },
   "devDependencies": {
     "chai": "",
