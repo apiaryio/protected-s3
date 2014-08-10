@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "author": "Lukas Linhart <bugs@almad.net>",
   "dependencies": {
-    "async": "",
+    "coffee-script": "^1.7.0",
     "passport": "~0.2.0",
     "express": "~4.2.0",
     "static-favicon": "~1.0.0",
@@ -20,7 +20,6 @@
     "knox": "~0.9.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.7.0",
     "chai": "",
     "mocha": "~1.18.2",
     "sinon": "~1.9.1",
