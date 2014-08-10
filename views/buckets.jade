@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+
+  h2 List of available buckets
+  
+  ul
+
+  each bucket in buckets
+    li
+      a(href="./#{bucket}/") #{bucket}
+

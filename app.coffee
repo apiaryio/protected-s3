@@ -49,5 +49,8 @@ app.use (err, req, res, next) ->
         message: err.message,
         error: {}
 
+if not process.env.BUCKETS
+    console.error "Please set BUCKETS environment variable, otherwise this app has no sense."
+
 
 module.exports = app

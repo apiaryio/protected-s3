@@ -64,8 +64,8 @@ router.get '/auth/google', passport.authenticate 'google'
 
 router.get '/auth/google/return', 
   passport.authenticate 'google',
-    successRedirect: '/buckets'
-    failureRedirect: '/login'
+    successRedirect: '/buckets/'
+    failureRedirect: '/'
 
 
 module.exports = router
