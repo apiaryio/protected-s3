@@ -27,7 +27,7 @@ app.use(session({ secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat' }
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/', routes)
-app.use('/buckets', buckets)
+app.use('/', buckets)
 
 app.use (req, res, next) ->
     err = new Error('Not Found')

@@ -17,13 +17,15 @@ isLoggedIn = (req, res, next) ->
     res.redirect('/')
 
 
-router.get '/', isLoggedIn, (req, res) ->
-  res.render 'buckets',
-    title:   'List of exposed sites'
-    buckets: BUCKETS
+router.get '/buckets', isLoggedIn, (req, res) ->
+  if buckets.length > 1
+    res.render 'buckets',
+      title:   'List of exposed sites'
+      buckets: BUCKETS
+  else
+    res.redirect '/content'
 
-
-router.get '/:bucket/*', isLoggedIn, (req, res) ->
+returnFile = (bucket) -> (req, res) ->
   fileName = req.params[0] or 'index.html'
 
   getFile req.params.bucket, fileName, (err, awsRes) ->
@@ -34,5 +36,10 @@ router.get '/:bucket/*', isLoggedIn, (req, res) ->
           error: {}
     else
       awsRes.pipe res
+
+router.get '/content/*', isLoggedIn, returnFile BUCKETS[0]
+
+router.get '/buckets/:bucket/*', isLoggedIn, (req, res) ->
+  returnFile(req.params.bucket)(req, res)
 
 module.exports = router
