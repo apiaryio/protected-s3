@@ -62,7 +62,9 @@ passport.deserializeUser (id, done) ->
 
 
 router.get '/', (req, res) ->
-  res.render 'index', title: 'Protected S3 bucket'
+  res.render 'index',
+    title: 'Protected S3 bucket'
+    domain: if process.env.ALLOWED_DOMAINS then process.env.ALLOWED_DOMAINS else 'any'
 
 router.get '/auth/google', passport.authenticate 'google', scope: 'openid email'
 
