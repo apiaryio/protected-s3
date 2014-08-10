@@ -34,7 +34,7 @@ app.use (req, res, next) ->
     err.status = 404
     next(err)
 
-if (app.get('env') is 'development') 
+if app.get('env') is 'development'
     app.use (err, req, res, next) ->
         res.status err.status or 500
         res.render 'error',

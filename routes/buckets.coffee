@@ -10,7 +10,7 @@ isLoggedIn = (req, res, next) ->
 
 
 
-router.get '/buckets', isLoggedIn, (req, res) ->
+router.get '/', isLoggedIn, (req, res) ->
   res.send 200, 'buckets'
 
 
