@@ -27,7 +27,7 @@ strategy = new GoogleStrategy
     else
       user = false
       for email in profile.emails
-        email = mimelib.parseAddresses email
+        email = mimelib.parseAddresses email.value
         emailDomain = email[0].address.split('@')[1]
 
         for domain in ALLOWED_DOMAINS
