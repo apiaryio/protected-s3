@@ -5,7 +5,7 @@
   "author": "Lukas Linhart <bugs@almad.net>",
   "dependencies": {
     "async": "",
-    "passport": "",
+    "passport": "~0.2.0",
     "express": "~4.2.0",
     "static-favicon": "~1.0.0",
     "morgan": "~1.0.0",
@@ -13,22 +13,22 @@
     "body-parser": "~1.0.0",
     "debug": "~0.7.4",
     "jade": "~1.3.0",
-    "stylus": "0.42.3"
+    "stylus": "0.42.3",
+    "passport-google": "~0.3.0",
+    "express-session": "~1.7.4"
   },
   "devDependencies": {
     "coffee-script": "^1.7.0",
     "chai": "",
-    "mocha": "",
-    "sinon": "",
+    "mocha": "~1.18.2",
+    "sinon": "~1.9.1",
     "streamers": "",
     "gulp": "~3.8.6",
     "gulp-coffeelint": "~0.3.2",
     "gulp-mocha": "~0.5.1",
     "gulp-watch": "~0.6.8",
-    "mocha": "~1.18.2",
     "nib": "",
     "request": "",
-    "sinon": "~1.9.1",
     "stylus": "",
     "yargs": "~1.2.1"
   },
