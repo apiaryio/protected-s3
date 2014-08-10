@@ -23,12 +23,12 @@ router.get '/buckets', isLoggedIn, (req, res) ->
       title:   'List of exposed sites'
       buckets: BUCKETS
   else
-    res.redirect '/content'
+    res.redirect '/content/'
 
 returnFile = (bucket) -> (req, res) ->
   fileName = req.params[0] or 'index.html'
 
-  getFile req.params.bucket, fileName, (err, awsRes) ->
+  getFile bucket, fileName, (err, awsRes) ->
     if err
       console.error "Cannot retrieve file: ", err
       return res.render 'error', 
