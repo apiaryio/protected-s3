@@ -18,7 +18,7 @@ isLoggedIn = (req, res, next) ->
 
 
 router.get '/buckets', isLoggedIn, (req, res) ->
-  if buckets.length > 1
+  if BUCKETS.length > 1
     res.render 'buckets',
       title:   'List of exposed sites'
       buckets: BUCKETS
