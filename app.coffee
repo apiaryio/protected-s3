@@ -45,7 +45,7 @@ if app.get('env') is 'development'
 # no stacktraces leaked to user
 # but it is printed into console
 app.use (err, req, res, next) ->
-    console.error 'PROTECTED_S3_ERROR Uncaught error "#{err?.message}": ', err
+    console.error "PROTECTED_S3_ERROR Uncaught error '#{err?.message}': ", err
     res.status err.status or 500
     res.render 'error', 
         message: err.message,
