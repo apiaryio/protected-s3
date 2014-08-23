@@ -2,13 +2,13 @@
 
 Simple application that allows you to display the content of your S3 to authorised users only.
 
-## Instalation 
+## Installation
 
 * npm start
 
 Don't forget to set environment variables:
 
-* `NODE_ENV' to `production` (or your bucket will be open)
+* `NODE_ENV` to `production` (or your bucket will be open)
 * `DOMAIN` to whatever domain you are on
 * `USE_SSL` to `1` unless you have a very good reason not to (credentials might leak there)
 * `ALLOWED_DOMAINS` to comma-separated list of domains you are accepting auth from
