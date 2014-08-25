@@ -23,7 +23,7 @@ strategy = new GoogleStrategy
         return done new Error "ALLOWED_DOMAINS environment variable must be configured for production environment"
       else
         user = id: profile.id
-    
+
     else
       user = false
       for email in profile.emails
@@ -45,8 +45,8 @@ passport.use strategy
 
 
 ###
-# In-memory user database store. Such web scales, very wow. 
-### 
+# In-memory user database store. Such web scales, very wow.
+###
 USERS = {}
 
 
@@ -68,10 +68,10 @@ router.get '/', (req, res) ->
 
 router.get '/auth/google', passport.authenticate 'google', scope: 'openid email'
 
-router.get '/auth/google/return', 
+router.get '/auth/google/return',
   passport.authenticate 'google',
     scope: 'openid email'
-    successRedirect: '/buckets/'
+    successReturnToOrRedirect: '/buckets/'
     failureRedirect: '/'
 
 
