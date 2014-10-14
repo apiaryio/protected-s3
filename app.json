@@ -6,4 +6,45 @@
   "keywords": ["amazons3", "apiary", "oauth"],
   "website": "http://www.apiary.io",
   "success_url": "/",
+  "env":
+  {
+     "NODE_ENV":
+        {
+          "description":"Set to production or your bucket will be open",
+          "value":"production"
+        },
+     "DOMAIN":
+        {
+          "description":"to whatever domain you are on"
+        },
+     "USE_SSL":
+        {
+          "description":"set to to `1` unless you have a very good reason not to (credentials might leak there)",
+          "value":"1"
+        },
+     "ALLOWED_DOMAINS":
+        {
+          "description":"comma-separated list of domains you are accepting auth from"
+        },
+     "GOOGLE_CLIENT_ID":
+        {
+          "description":"your Google app credentials"
+        },
+    "GOOGLE_CLIENT_SECRET":
+           {
+             "description":"your Google app credentials"
+           },
+     "BUCKETS":
+      {
+        "description":"buckets you want to expose"
+      },
+     "ACCESS_KEY":
+      {
+        "description":"Your S3 access credentials"
+      },
+     "SECRET_KEY":
+      {
+        "description":"Your S3 access credentials"
+      }
+  }
 }
