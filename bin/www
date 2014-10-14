@@ -1,7 +1,7 @@
 #!/usr/bin/env coffee
 debug = require('debug')('protected-s3')
-app = require('../app')
-
+app = require('../app.coffee')
+console.log(app)
 app.set('port', process.env.PORT || 3000)
 
 server = app.listen app.get('port'), ->
