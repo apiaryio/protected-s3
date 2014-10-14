@@ -2,47 +2,47 @@
   "name": "Protected-S3",
   "description": "Simple application that allows you to display the content of your S3 to authorised users only.",
   "repository": "https://github.com/apiaryio/protected-s3",
-  "logo": "https://node-js-sample.herokuapp.com/node.svg",
+  "logo": "https://apiary.a.ssl.fastly.net/assets/images/website/logotype-apiary-cb8fa3918bdf3961.png",
   "keywords": ["amazons3", "apiary", "oauth"],
   "website": "http://www.apiary.io",
   "success_url": "/",
   "env":
   {
-     "NODE_ENV":
+    "NODE_ENV":
         {
           "description":"Set to production or your bucket will be open",
           "value":"production"
         },
-     "DOMAIN":
+    "DOMAIN":
         {
           "description":"to whatever domain you are on"
         },
-     "USE_SSL":
+    "USE_SSL":
         {
           "description":"set to to `1` unless you have a very good reason not to (credentials might leak there)",
           "value":"1"
         },
-     "ALLOWED_DOMAINS":
+    "ALLOWED_DOMAINS":
         {
           "description":"comma-separated list of domains you are accepting auth from"
         },
-     "GOOGLE_CLIENT_ID":
+    "GOOGLE_CLIENT_ID":
         {
           "description":"your Google app credentials"
         },
     "GOOGLE_CLIENT_SECRET":
-           {
-             "description":"your Google app credentials"
-           },
-     "BUCKETS":
+        {
+          "description":"your Google app credentials"
+        },
+    "BUCKETS":
       {
         "description":"buckets you want to expose"
       },
-     "ACCESS_KEY":
+    "ACCESS_KEY":
       {
         "description":"Your S3 access credentials"
       },
-     "SECRET_KEY":
+    "SECRET_KEY":
       {
         "description":"Your S3 access credentials"
       }
