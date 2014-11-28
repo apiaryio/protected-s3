@@ -45,6 +45,14 @@
     "SECRET_KEY":
       {
         "description":"Your S3 access credentials"
+      },
+    "USE_REDIS_SESSION":
+      {
+        "description":"Set to 1 if Session should be persisted using Redis",
+        "value":"1"
       }
-  }
+  },
+  "addons": [
+    "rediscloud"
+  ]
 }
