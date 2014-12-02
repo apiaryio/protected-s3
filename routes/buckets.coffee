@@ -30,6 +30,7 @@ returnFile = (bucket) -> (req, res) ->
           message: "Cannot retrieve file: ", err.message
           error: {}
     else
+      res.set awsRes.headers
       awsRes.pipe res
 
 router.get '/content/*', ensureLoggedIn('/'), returnFile BUCKETS[0]
