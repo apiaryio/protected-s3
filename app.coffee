@@ -13,15 +13,15 @@ buckets      = require './routes/buckets'
 
 RedisStore =  require('connect-redis')(session);
 
-app = express()
-
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'jade')
-
 sessionOptions = { secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat' }
 
 if process.env.USE_REDIS_SESSION is '1'
   sessionOptions.store = new RedisStore()
+
+app = express()
+
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'jade')
 
 app.use(favicon())
 app.use(logger('dev'))
