@@ -5,14 +5,14 @@ express        = require 'express'
   #getFiles
 } = require '../src/aws'
 
-cel        = require ('connect-ensure-login')
+{ensureLoggedIn}        = require 'connect-ensure-login'
 
 BUCKETS = (i.trim() for i in process.env.BUCKETS.split ',')
 
 
 router = express.Router()
 
-router.get '/buckets', cel.ensureLoggedIn('/'), (req, res) ->
+router.get '/buckets', ensureLoggedIn('/'), (req, res) ->
   if BUCKETS.length > 1
     res.render 'buckets',
       title:   'List of exposed sites'
@@ -30,11 +30,12 @@ returnFile = (bucket) -> (req, res) ->
           message: "Cannot retrieve file: ", err.message
           error: {}
     else
+      res.set awsRes.headers
       awsRes.pipe res
 
-router.get '/content/*', cel.ensureLoggedIn('/'), returnFile BUCKETS[0]
+router.get '/content/*', ensureLoggedIn('/'), returnFile BUCKETS[0]
 
-router.get '/buckets/:bucket/*', cel.ensureLoggedIn('/'), (req, res) ->
+router.get '/buckets/:bucket/*', ensureLoggedIn('/'), (req, res) ->
   returnFile(req.params.bucket)(req, res)
 
 module.exports = router

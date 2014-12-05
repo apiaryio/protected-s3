@@ -11,6 +11,13 @@ passport     = require 'passport'
 routes       = require './routes/index'
 buckets      = require './routes/buckets'
 
+RedisStore =  require('connect-redis')(session);
+
+sessionOptions = { secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat' }
+
+if process.env.USE_REDIS_SESSION is '1'
+  sessionOptions.store = new RedisStore()
+
 app = express()
 
 app.set('views', path.join(__dirname, 'views'))
@@ -23,7 +30,7 @@ app.use(bodyParser.urlencoded())
 app.use(cookieParser())
 app.use(require('stylus').middleware(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(session({ secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat' }))
+app.use(session(sessionOptions))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/', routes)
@@ -47,7 +54,7 @@ if app.get('env') is 'development'
 app.use (err, req, res, next) ->
     console.error "PROTECTED_S3_ERROR Uncaught error '#{err?.message}': ", err
     res.status err.status or 500
-    res.render 'error', 
+    res.render 'error',
         message: err.message,
         error: {}
 
