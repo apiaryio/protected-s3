@@ -5,6 +5,8 @@ GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 router = express.Router()
 
+{ensureLoggedIn}    = require 'connect-ensure-login'
+
 
 # Configure google login
 protocol = if process.env.USE_SSL is '1' then 'https' else 'http'
@@ -61,7 +63,10 @@ passport.deserializeUser (id, done) ->
     done null, USERS[id]
 
 
-router.get '/', (req, res) ->
+router.get '/', ensureLoggedIn('/index'), (req, res) ->
+  res.redirect('/buckets/')
+
+router.get '/index', (req, res) ->
   res.render 'index',
     title: 'Protected S3 bucket'
     domain: if process.env.ALLOWED_DOMAINS then process.env.ALLOWED_DOMAINS else 'any'
