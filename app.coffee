@@ -13,7 +13,11 @@ buckets      = require './routes/buckets'
 
 RedisStore =  require('connect-redis')(session);
 
-sessionOptions = { secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat' }
+sessionOptions = {
+    secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}
 
 if process.env.USE_REDIS_SESSION is '1'
   sessionOptions.store = new RedisStore()
