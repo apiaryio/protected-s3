@@ -19,6 +19,7 @@
     "passport": "~0.2.0",
     "passport-google": "~0.3.0",
     "passport-google-oauth": "~0.1.5",
+    "redis-url": "^1.2.0",
     "static-favicon": "~1.0.0",
     "stylus": "0.42.3"
   },

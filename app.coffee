@@ -20,7 +20,12 @@ sessionOptions = {
 }
 
 if process.env.USE_REDIS_SESSION is '1'
-  sessionOptions.store = new RedisStore()
+    redisURL = require('redis-url').connect(process.env.REDISCLOUD_URL)
+    options =
+        host: redisURL.hostname
+        port: redisURL.port
+        pass: redisURL.password
+    sessionOptions.store = new RedisStore(options)
 
 app = express()
 
