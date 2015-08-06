@@ -20,7 +20,7 @@ sessionOptions = {
     name: 'protected-s3.sid',
     cookie: {
         maxAge: 2592000000,          # 30 days
-        secure: false,
+        secure: process.env.USE_SSL is '1',
         httpOnly: true
     }
 }
@@ -76,5 +76,7 @@ app.use (err, req, res, next) ->
 if not process.env.BUCKETS
     console.error "Please set BUCKETS environment variable, otherwise this app has no sense."
 
+if process.env.USE_SSL is '1'
+    app.set('trust proxy', 1)
 
 module.exports = app
