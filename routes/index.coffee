@@ -7,6 +7,13 @@ router = express.Router()
 
 {ensureLoggedIn}    = require 'connect-ensure-login'
 
+use_redis_store = process.env.USE_REDIS_SESSION is '1'
+
+
+###
+# In-memory user database store. Such web scales, very wow.
+###
+USERS = {}
 
 # Configure google login
 protocol = if process.env.USE_SSL is '1' then 'https' else 'http'
@@ -38,7 +45,8 @@ strategy = new GoogleStrategy
             user = id: profile.id
             break
 
-    USERS[user.id] = user if user
+    if !use_redis_store
+      USERS[user.id] = user if user
 
     done null, user
 
@@ -49,6 +57,7 @@ passport.use strategy
 
 ###
 # In-memory user database store. Such web scales, very wow.
+# This is only used if USE_REDIS_SESSION is set to 0.
 ###
 USERS = {}
 
@@ -58,10 +67,13 @@ passport.serializeUser (user, done) ->
 
 
 passport.deserializeUser (id, done) ->
-  if not USERS[id]
-    done new Error "Cannot find user", id
+  if use_redis_store
+    done null, id
   else
-    done null, USERS[id]
+    if not USERS[id]
+      done new Error "Cannot find user", id
+    else
+      done null, USERS[id]
 
 
 router.get '/', ensureLoggedIn('/index'), (req, res) ->
