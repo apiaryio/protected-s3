@@ -20,7 +20,8 @@ sessionOptions = {
     name: 'protected-s3.sid',
     cookie: {
         maxAge: 2592000000          # 30 days
-    }
+    },
+    proxy: true
 }
 
 if process.env.USE_REDIS_SESSION is '1'
