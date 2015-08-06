@@ -21,7 +21,7 @@ sessionOptions = {
     cookie: {
         maxAge: 2592000000          # 30 days
     },
-    proxy: true
+    secureProxy: true
 }
 
 if process.env.USE_REDIS_SESSION is '1'
