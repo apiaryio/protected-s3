@@ -18,6 +18,7 @@ sessionOptions = {
     resave: false,
     saveUninitialized: false,
     name: 'protected-s3.sid',
+    proxy: true,
     cookie: {
         maxAge: 2592000000,          # 30 days
         secure: process.env.USE_SSL is '1',
