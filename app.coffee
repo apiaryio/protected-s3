@@ -17,9 +17,9 @@ sessionOptions = {
     secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
     resave: false,
     saveUninitialized: false,
+    name: 'protected-s3.sid',
     cookie: {
         maxAge: 2592000000          # 30 days
-        name: 'protected-s3.sid',
     }
 }
 
