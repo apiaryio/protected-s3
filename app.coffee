@@ -16,11 +16,15 @@ RedisStore =  require('connect-redis')(session);
 sessionOptions = {
     secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 2592000000          # 30 days
+        name: 'protected-s3.sid',
+    }
 }
 
 if process.env.USE_REDIS_SESSION is '1'
-    redisURL = require('redis-url').connect(process.env.REDISCLOUD_URL)
+    redisURL = require('redis-url').connect(process.env.REDIS_URL)
     options =
         host: redisURL.hostname
         port: redisURL.port
