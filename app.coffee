@@ -11,7 +11,7 @@ passport     = require 'passport'
 routes       = require './routes/index'
 buckets      = require './routes/buckets'
 
-RedisStore =  require('connect-redis')(session);
+RedisStore =  require('debug')('connect-redis')(session);
 
 sessionOptions = {
     secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
@@ -20,9 +20,9 @@ sessionOptions = {
     name: 'protected-s3.sid',
     proxy: true,
     cookie: {
-        maxAge: 2592000000,          # 30 days
+        maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
         secure: process.env.USE_SSL is '1',
-        httpOnly: true
+        domain: process.env.DOMAIN
     }
 }
 
