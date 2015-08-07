@@ -76,10 +76,10 @@ passport.deserializeUser (id, done) ->
       done null, USERS[id]
 
 
-router.get '/', ensureLoggedIn('/index'), (req, res) ->
-  res.redirect('/buckets/')
-
-router.get '/index', (req, res) ->
+router.get '/', (req, res) ->
+#  res.redirect('/buckets/')
+#
+#router.get '/index', (req, res) ->
   res.render 'index',
     title: 'Protected S3 bucket'
     domain: if process.env.ALLOWED_DOMAINS then process.env.ALLOWED_DOMAINS else 'any'

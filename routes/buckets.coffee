@@ -12,7 +12,7 @@ BUCKETS = (i.trim() for i in process.env.BUCKETS.split ',')
 
 router = express.Router()
 
-router.get '/buckets', ensureLoggedIn('/index'), (req, res) ->
+router.get '/buckets', ensureLoggedIn('/'), (req, res) ->
   if BUCKETS.length > 1
     res.render 'buckets',
       title:   'List of exposed sites'
@@ -33,9 +33,9 @@ returnFile = (bucket) -> (req, res) ->
       res.set awsRes.headers
       awsRes.pipe res
 
-router.get '/content/*', ensureLoggedIn('/index'), returnFile BUCKETS[0]
+router.get '/content/*', ensureLoggedIn('/'), returnFile BUCKETS[0]
 
-router.get '/buckets/:bucket/*', ensureLoggedIn('/index'), (req, res) ->
+router.get '/buckets/:bucket/*', ensureLoggedIn('/'), (req, res) ->
   returnFile(req.params.bucket)(req, res)
 
 module.exports = router
