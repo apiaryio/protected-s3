@@ -18,12 +18,11 @@ sessionOptions = {
     secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    name: 'protected-s3.sid',
+    name: 'protected_s3.sid',
     proxy: use_secure_settings,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
-        secure: if use_secure_settings then true else null,
-        domain: '.herokuapp.com'
+        secure: if use_secure_settings then true else null
     }
 }
 
