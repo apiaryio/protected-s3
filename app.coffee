@@ -11,18 +11,19 @@ passport     = require 'passport'
 routes       = require './routes/index'
 buckets      = require './routes/buckets'
 
-RedisStore =  require('debug')('connect-redis')(session);
+RedisStore =  require('connect-redis')(session);
 
+use_secure_settings = process.env.USE_SSL is '1'
 sessionOptions = {
     secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
     resave: false,
     saveUninitialized: false,
     name: 'protected-s3.sid',
-    proxy: true,
+    proxy: use_secure_settings,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
-        secure: process.env.USE_SSL is '1',
-        domain: process.env.DOMAIN
+        secure: if use_secure_settings then true else null,
+        domain: '.herokuapp.com'
     }
 }
 
