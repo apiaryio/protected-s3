@@ -22,7 +22,8 @@ sessionOptions = {
     proxy: use_secure_settings,
     cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
-        secure: if use_secure_settings then true else null
+        secure: if use_secure_settings then true else null,
+        domain: 'apiary-internal-docs-staging.herokuapp.com'
     }
 }
 
