@@ -44,8 +44,26 @@ if process.env.USE_REDIS_SESSION is '1'
     sessionOptions.store = new RedisStore(options)
     redisClient.debug_mode = true
 
+    process.on 'SIGTERM', ->
+        redisClient.quit()
+
+
+shutdownInProgress = false
+onSigTerm = ->
+    if shutdownInProgress
+      return
+    console.log 'Graceful shutdown ...'
+    shutdownInProgress = true
+    app.close ->
+        setTimeout ->
+            process.exit(0)
+        , 500
+
 
 app = express()
+
+# graceful shutdown
+process.on 'SIGTERM', onSigTerm
 
 if process.env.USE_SSL is '1'
   app.set('trust proxy', 1)
@@ -61,9 +79,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use(cookieParser())
 app.use(session(sessionOptions))
-app.use (req, res, next) ->
-  console.log JSON.stringify {user: req.session?.user, id: req.session?.id}
-  next()
 app.use(passport.initialize())
 app.use(passport.session())
 
