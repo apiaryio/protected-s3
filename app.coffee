@@ -6,6 +6,8 @@ logger       = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser   = require 'body-parser'
 
+redis = require 'redis-url/node_modules/redis'
+
 URL          = require 'url'
 
 passport     = require 'passport'
@@ -28,26 +30,19 @@ sessionOptions =
 
 if process.env.USE_REDIS_SESSION is '1'
     rdu = require('redis-url')
-    rdu.debug_mode = true
-    redisURL = rdu.connect(process.env.REDIS_URL)
-    redisURL.on 'ready', ->
+    redisClient = rdu.connect(process.env.REDIS_URL)
+    redisClient.on 'ready', ->
         console.log 'REDIS -> emit: READY'
-    redisURL.on 'connect', ->
+    redisClient.on 'connect', ->
         console.log 'REDIS -> emit: CONNECT'
-        # redisURL.flushdb()
+    redisClient.on 'disconnect', ->
+        console.error 'REDIS -> emit: DISCONNECT'
+    redisClient.on 'error', (err) ->
+        console.error "REDIS -> emit: ERROR", err
 
-    rd = URL.parse process.env.REDIS_URL
-
-    options =
-        # url: process.env.REDIS_URL
-        debug_mode: true
-        host: redisURL.hostname
-        port: redisURL.port
-        # port: parseInt(redisURL.port, 10)
-        pass: redisURL.passport
-        # pass: rd.auth.split(':')[1]
+    options = client: redisClient
     sessionOptions.store = new RedisStore(options)
-    redisURL.debug_mode = true
+    redisClient.debug_mode = true
 
 
 app = express()
