@@ -27,7 +27,7 @@ sessionOptions =
     secure: if use_secure_settings then true else null
     domain: process.env.DOMAIN
 
-if process.env.USE_REDIS_SESSION is '1'
+if process.env.USE_REDIS_SESSION is '1' and process.env.REDIS_URL
     rdu = require('redis-url')
     redisClient = rdu.connect(process.env.REDIS_URL)
     redisClient.on 'ready', ->
@@ -35,16 +35,18 @@ if process.env.USE_REDIS_SESSION is '1'
     redisClient.on 'connect', ->
         console.log 'REDIS -> emit: CONNECT'
     redisClient.on 'disconnect', ->
-        console.error 'REDIS -> emit: DISCONNECT'
+        console.log 'REDIS -> emit: DISCONNECT'
     redisClient.on 'error', (err) ->
-        console.error "REDIS -> emit: ERROR", err
+        console.log "REDIS -> emit: ERROR", err
 
     options = client: redisClient
     sessionOptions.store = new RedisStore(options)
-    redisClient.debug_mode = true
 
     process.on 'SIGTERM', ->
         redisClient.quit()
+        redisClient.unref()
+        redisClient = null
+        return
 
 
 app = express()

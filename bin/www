@@ -6,14 +6,17 @@ app.set('port', process.env.PORT || 3000)
 
 shutdownInProgress = false
 onSigTerm = ->
-    if shutdownInProgress
+  if shutdownInProgress
+    return
+  console.log 'Graceful shutdown ...'
+  shutdownInProgress = true
+  server?.close? ->
+    setTimeout ->
+      process.exit(0)
       return
-    console.log 'Graceful shutdown ...'
-    shutdownInProgress = true
-    server?.close? ->
-        setTimeout ->
-            process.exit(0)
-        , 500
+    , 500
+    return
+  return
 
 
 # graceful shutdown
