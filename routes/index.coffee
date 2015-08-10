@@ -47,6 +47,9 @@ strategy = new GoogleStrategy
 
     if !use_redis_store
       USERS[user.id] = user if user
+      console.log 'Authenticated - saving to MemStore.', user
+    else
+      console.log 'Authenticated - saving to RedisStore.', user
 
     done null, user
 

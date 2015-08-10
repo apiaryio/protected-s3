@@ -6,34 +6,48 @@ logger       = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser   = require 'body-parser'
 
-passport     = require 'passport'
+URL          = require 'url'
 
-routes       = require './routes/index'
-buckets      = require './routes/buckets'
+passport     = require 'passport'
 
 RedisStore =  require('connect-redis')(session);
 
 use_secure_settings = process.env.USE_SSL is '1'
-sessionOptions = {
-    secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-    name: 'protected_s3.sid',
-    proxy: use_secure_settings,
-    cookie: {
-        maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
-        secure: if use_secure_settings then true else null,
-        domain: 'apiary-internal-docs-staging.herokuapp.com'
-    }
-}
+sessionOptions =
+  secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat'
+  resave: false
+  saveUninitialized: true
+  name: 'protected_s3.sid'
+  proxy: use_secure_settings
+  cookie:
+    maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
+    secure: if use_secure_settings then true else null,
+    # domain: 'localhost'
+
 
 if process.env.USE_REDIS_SESSION is '1'
-    redisURL = require('redis-url').connect(process.env.REDIS_URL)
+    rdu = require('redis-url')
+    rdu.debug_mode = true
+    redisURL = rdu.connect(process.env.REDIS_URL)
+    redisURL.on 'ready', ->
+        console.log 'REDIS -> emit: READY'
+    redisURL.on 'connect', ->
+        console.log 'REDIS -> emit: CONNECT'
+        # redisURL.flushdb()
+
+    rd = URL.parse process.env.REDIS_URL
+
     options =
+        # url: process.env.REDIS_URL
+        debug_mode: true
         host: redisURL.hostname
         port: redisURL.port
-        pass: redisURL.password
+        # port: parseInt(redisURL.port, 10)
+        pass: redisURL.passport
+        # pass: rd.auth.split(':')[1]
     sessionOptions.store = new RedisStore(options)
+    redisURL.debug_mode = true
+
 
 app = express()
 
@@ -41,15 +55,22 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
 app.use(favicon())
+app.use(require('stylus').middleware(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use(cookieParser())
-app.use(require('stylus').middleware(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(session(sessionOptions))
+app.use (req, res, next) ->
+    console.log JSON.stringify {user: req.session?.user, id: req.session?.id}
+    next()
 app.use(passport.initialize())
 app.use(passport.session())
+
+routes       = require './routes/index'
+buckets      = require './routes/buckets'
+
 app.use('/', routes)
 app.use('/', buckets)
 
