@@ -49,22 +49,6 @@ if process.env.USE_REDIS_SESSION is '1'
 
 app = express()
 
-
-shutdownInProgress = false
-onSigTerm = ->
-    if shutdownInProgress
-      return
-    console.log 'Graceful shutdown ...'
-    shutdownInProgress = true
-    app?.close ->
-        setTimeout ->
-            process.exit(0)
-        , 500
-
-
-# graceful shutdown
-process.on 'SIGTERM', onSigTerm
-
 if process.env.USE_SSL is '1'
   app.set('trust proxy', 1)
 
