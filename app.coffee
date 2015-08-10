@@ -27,7 +27,6 @@ sessionOptions =
     secure: if use_secure_settings then true else null
     domain: process.env.DOMAIN
 
-
 if process.env.USE_REDIS_SESSION is '1'
     rdu = require('redis-url')
     redisClient = rdu.connect(process.env.REDIS_URL)
@@ -48,19 +47,20 @@ if process.env.USE_REDIS_SESSION is '1'
         redisClient.quit()
 
 
+app = express()
+
+
 shutdownInProgress = false
 onSigTerm = ->
     if shutdownInProgress
       return
     console.log 'Graceful shutdown ...'
     shutdownInProgress = true
-    app.close ->
+    app?.close ->
         setTimeout ->
             process.exit(0)
         , 500
 
-
-app = express()
 
 # graceful shutdown
 process.on 'SIGTERM', onSigTerm
