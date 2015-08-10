@@ -13,15 +13,16 @@ passport     = require 'passport'
 RedisStore =  require('connect-redis')(session);
 
 use_secure_settings = process.env.USE_SSL is '1'
+
 sessionOptions =
   secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat'
   resave: false
-  saveUninitialized: true
+  saveUninitialized: false
   name: 'protected_s3.sid'
   proxy: use_secure_settings
   cookie:
-    maxAge: 30 * 24 * 60 * 60 * 1000,          # 30 days
-    secure: if use_secure_settings then true else null,
+    maxAge: 30 * 24 * 60 * 60 * 1000          # 30 days
+    secure: if use_secure_settings then true else null
     # domain: 'localhost'
 
 
@@ -51,6 +52,9 @@ if process.env.USE_REDIS_SESSION is '1'
 
 app = express()
 
+if process.env.USE_SSL is '1'
+  app.set('trust proxy', 1)
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
@@ -63,8 +67,8 @@ app.use(bodyParser.urlencoded())
 app.use(cookieParser())
 app.use(session(sessionOptions))
 app.use (req, res, next) ->
-    console.log JSON.stringify {user: req.session?.user, id: req.session?.id}
-    next()
+  console.log JSON.stringify {user: req.session?.user, id: req.session?.id}
+  next()
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -98,8 +102,5 @@ app.use (err, req, res, next) ->
 
 if not process.env.BUCKETS
     console.error "Please set BUCKETS environment variable, otherwise this app has no sense."
-
-if process.env.USE_SSL is '1'
-    app.set('trust proxy', 1)
 
 module.exports = app
