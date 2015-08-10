@@ -23,7 +23,7 @@ sessionOptions =
   cookie:
     maxAge: 30 * 24 * 60 * 60 * 1000          # 30 days
     secure: if use_secure_settings then true else null
-    # domain: 'localhost'
+    domain: process.env.DOMAIN
 
 
 if process.env.USE_REDIS_SESSION is '1'
