@@ -28,24 +28,12 @@ strategy = new GoogleStrategy
 
     ALLOWED_DOMAINS = (i.trim() for i in process.env.ALLOWED_DOMAINS?.split(',') or [])
 
-    if not ALLOWED_DOMAINS.length
-      if process.env.NODE_ENV is 'production'
+    if not ALLOWED_DOMAINS.length and process.env.NODE_ENV is 'production'
         return done new Error "ALLOWED_DOMAINS environment variable must be configured for production environment"
-      else
+    else
         user = id: profile.id
 
-    else
-      user = false
-      for email in profile.emails
-        email = mimelib.parseAddresses email.value
-        emailDomain = email[0].address.split('@')[1]
-
-        for domain in ALLOWED_DOMAINS
-          if domain is emailDomain
-            user = id: profile.id
-            break
-
-    if !use_redis_store
+    if not use_redis_store
       USERS[user.id] = user if user
       console.log 'Authenticated - saving to MemStore.', user
     else
@@ -87,7 +75,10 @@ router.get '/index', (req, res) ->
     title: 'Protected S3 bucket'
     domain: if process.env.ALLOWED_DOMAINS then process.env.ALLOWED_DOMAINS else 'any'
 
-router.get '/auth/google', passport.authenticate 'google', scope: 'openid email'
+router.get '/auth/google',
+  passport.authenticate 'google',
+    scope: 'openid email'
+    hostedDomain: process.env.ALLOWED_DOMAINS
 
 router.get '/auth/google/return',
   passport.authenticate 'google',
