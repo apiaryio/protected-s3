@@ -5,11 +5,8 @@ favicon      = require 'static-favicon'
 logger       = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser   = require 'body-parser'
-
 passport     = require 'passport'
 
-routes       = require './routes/index'
-buckets      = require './routes/buckets'
 
 RedisStore =  require('connect-redis')(session);
 
@@ -37,15 +34,19 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
 app.use(favicon())
+app.use(require('stylus').middleware(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use(cookieParser())
-app.use(require('stylus').middleware(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, 'public')))
 app.use(session(sessionOptions))
 app.use(passport.initialize())
 app.use(passport.session())
+
+routes       = require './routes/index'
+buckets      = require './routes/buckets'
+
 app.use('/', routes)
 app.use('/', buckets)
 
