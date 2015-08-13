@@ -8,16 +8,15 @@ bodyParser   = require 'body-parser'
 passport     = require 'passport'
 
 
-use_secure_settings = process.env.USE_SSL is '1'
+use_secure_cookie = process.env.USE_SSL is '1' and process.env.USE_SECURE_COOKIE is '1'
 sessionOptions =
     secret: process.env.EXPRESS_SESSION_SECRET or 'keyboard cat'
     resave: false
     saveUninitialized: false
     name: 'protected_s3.sid'
-    # proxy: use_secure_settings
     cookie:
         maxAge: 30 * 24 * 60 * 60 * 1000          # 30 days
-        secure: use_secure_settings
+        secure: use_secure_cookie
         # domain: if process.env.DOMAIN == 'localhost' then null else process.env.DOMAIN
 
 if process.env.USE_REDIS_SESSION is '1' and process.env.REDIS_URL
@@ -37,7 +36,7 @@ if process.env.USE_REDIS_SESSION is '1' and process.env.REDIS_URL
 
 app = express()
 
-if use_secure_settings
+if use_secure_cookie
   app.set('trust proxy', 1)
 
 app.set('views', path.join(__dirname, 'views'))
