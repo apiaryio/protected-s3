@@ -17,7 +17,6 @@ sessionOptions =
     cookie:
         maxAge: 30 * 24 * 60 * 60 * 1000          # 30 days
         secure: use_secure_cookie
-        # domain: if process.env.DOMAIN == 'localhost' then null else process.env.DOMAIN
 
 if process.env.USE_REDIS_SESSION is '1' and process.env.REDIS_URL
     redisClient = require('redis-url').connect(process.env.REDIS_URL)
