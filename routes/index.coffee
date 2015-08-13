@@ -73,12 +73,12 @@ router.get '/', ensureLoggedIn('/index'), (req, res) ->
 router.get '/index', (req, res) ->
   res.render 'index',
     title: 'Protected S3 bucket'
-    domain: if process.env.ALLOWED_DOMAINS then process.env.ALLOWED_DOMAINS else 'any'
+    domain: process.env.ALLOWED_DOMAINS or 'any'
 
 router.get '/auth/google',
   passport.authenticate 'google',
     scope: 'openid email'
-    hostedDomain: process.env.ALLOWED_DOMAINS
+    hostedDomain: process.env.ALLOWED_DOMAINS or 'any'
 
 router.get '/auth/google/return',
   passport.authenticate 'google',
