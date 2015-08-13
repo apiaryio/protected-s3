@@ -22,7 +22,7 @@ sessionOptions =
 if process.env.USE_REDIS_SESSION is '1' and process.env.REDIS_URL
     redisClient = require('redis-url').connect(process.env.REDIS_URL)
     redisClient.on 'error', (err) ->
-        console.log "REDIS -> emit: ERROR", err
+        console.error "REDIS -> emit: ERROR", err
     options = client: redisClient
     RedisStore =  require('connect-redis')(session);
     sessionOptions.store = new RedisStore(options)
