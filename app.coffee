@@ -15,8 +15,8 @@ sessionOptions =
     saveUninitialized: false
     # name: 'protected_s3.sid'
     # proxy: use_secure_settings
-    # cookie:
-        # maxAge: 30 * 24 * 60 * 60 * 1000          # 30 days
+    cookie:
+        maxAge: 30 * 24 * 60 * 60 * 1000          # 30 days
         # secure: use_secure_settings
         # domain: if process.env.DOMAIN == 'localhost' then null else process.env.DOMAIN
 
