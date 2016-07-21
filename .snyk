@@ -1,9 +1,19 @@
 version: v1.5.2
-ignore: {}
+ignore:
+  'npm:node-uuid:20160328':
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > request > node-uuid:
+        reason: None given
+        expires: '2016-08-20T12:10:46.750Z'
 patch:
   'npm:minimatch:20160620':
     - nib > stylus > glob > minimatch:
         patched: '2016-07-21T10:13:48.805Z'
+      snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > tar > fstream > rimraf > glob > minimatch:
+        patched: '2016-07-21T12:10:07.504Z'
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > rimraf > glob > minimatch:
+        patched: '2016-07-21T12:10:07.504Z'
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > tar-pack > fstream-ignore > minimatch:
+        patched: '2016-07-21T12:10:07.504Z'
   'npm:ms:20151024':
     - knox > debug > ms:
         patched: '2016-07-21T10:13:48.805Z'
@@ -13,3 +23,15 @@ patch:
   'npm:uglify-js:20151024':
     - jade > transformers > uglify-js:
         patched: '2016-07-21T10:13:48.805Z'
+  'npm:hawk:20160119':
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > request > hawk:
+        patched: '2016-07-21T12:10:07.504Z'
+  'npm:is-my-json-valid:20160118':
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > request > har-validator > is-my-json-valid:
+        patched: '2016-07-21T12:10:07.504Z'
+  'npm:request:20160119':
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > request:
+        patched: '2016-07-21T12:10:07.504Z'
+  'npm:tar:20151103':
+    - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > tar-pack > tar:
+        patched: '2016-07-21T12:10:07.504Z'
