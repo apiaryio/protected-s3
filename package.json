@@ -21,7 +21,8 @@
     "passport-google-oauth": "~0.1.5",
     "redis-url": "^1.2.0",
     "static-favicon": "~1.0.0",
-    "stylus": "0.54.5"
+    "stylus": "0.54.5",
+    "snyk": "^1.17.1"
   },
   "devDependencies": {
     "chai": "",
@@ -42,9 +43,10 @@
     "s3 streaming upload"
   ],
   "scripts": {
-    "prepublish": "scripts/build",
+    "prepublish": "npm run snyk-protect; scripts/build",
     "start": "coffee ./bin/www",
-    "test": "./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\""
+    "test": "snyk test && ./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\"",
+    "snyk-protect": "snyk protect"
   },
   "licenses": [
     {
@@ -62,5 +64,6 @@
   "main": "lib/",
   "engines": {
     "node": "0.10.x"
-  }
+  },
+  "snyk": true
 }

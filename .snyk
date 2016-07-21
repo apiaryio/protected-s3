@@ -1,0 +1,15 @@
+version: v1.5.2
+ignore: {}
+patch:
+  'npm:minimatch:20160620':
+    - nib > stylus > glob > minimatch:
+        patched: '2016-07-21T10:13:48.805Z'
+  'npm:ms:20151024':
+    - knox > debug > ms:
+        patched: '2016-07-21T10:13:48.805Z'
+  'npm:uglify-js:20150824':
+    - jade > transformers > uglify-js:
+        patched: '2016-07-21T10:13:48.805Z'
+  'npm:uglify-js:20151024':
+    - jade > transformers > uglify-js:
+        patched: '2016-07-21T10:13:48.805Z'
