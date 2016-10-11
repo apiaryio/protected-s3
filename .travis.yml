@@ -1,19 +1,17 @@
 language: node_js
 node_js:
-  - 0.8
   - 0.10
+  - 4
+before_script:
+  - npm install -g snyk
+script: snyk test
 notifications:
   email:
     recipients:
-      - lukas@apiary.io
+      - sre@apiary.io
     on_success: change
-    on_failure: always
-  irc:
-    channels: "irc.freenode.org#apiary"
-    on_success: always
     on_failure: always
 
 cache:
   directories:
     - node_modules
-
