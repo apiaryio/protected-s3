@@ -1,13 +1,14 @@
 knox = require 'knox'
 
+clients = {}
 
 getFile = (bucket, fileName, cb) ->
-  client = knox.createClient
+  clients[bucket] ?= knox.createClient
     key:    process.env.ACCESS_KEY
     secret: process.env.SECRET_KEY
     bucket: bucket
 
-  client.getFile "/#{fileName}", cb
+  clients[bucket].getFile "/#{fileName}", cb
 
 module.exports = {
   getFile
