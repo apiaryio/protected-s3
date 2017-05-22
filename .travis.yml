@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - 0.10
   - 4
+  - 6
 before_script:
   - npm install -g snyk
-script: snyk test
+script: npm test
 notifications:
   email:
     recipients:
