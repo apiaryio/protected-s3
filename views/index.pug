@@ -6,7 +6,8 @@ block content
 
   #container.col
 
-  p Please log in with the google account on the <b>#{domain}</b> domain to see the content of the pages
+  p Please log in with the SSO account on the <b>#{domain}</b> domain to see the content of the pages
 
-  a(href="/auth/google") Sign In with Google
+  if useGoogleSso
+    a(href="/auth/google") Sign In with Google
 
