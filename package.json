@@ -63,7 +63,7 @@
   },
   "main": "lib/",
   "engines": {
-    "node": "0.10.x"
+    "node": "4.8.4"
   },
   "snyk": true
 }
