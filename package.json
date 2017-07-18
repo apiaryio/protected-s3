@@ -44,7 +44,7 @@
   ],
   "scripts": {
     "prepublish": "npm run snyk-protect; scripts/build",
-    "start": "coffee ./bin/www",
+    "start": "node ./bin/www",
     "test": "snyk test && ./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\"",
     "snyk-protect": "snyk protect"
   },
