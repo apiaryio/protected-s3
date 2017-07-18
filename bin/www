@@ -1,26 +1,34 @@
-#!/usr/bin/env coffee
-debug = require('debug')('protected-s3')
-app = require('../app.coffee')
+#!/usr/bin/env node
+const debug = require('debug')('protected-s3');
+const app = require('../app.coffee');
 
-app.set('port', process.env.PORT || 3000)
+app.set('port', process.env.PORT || 3000);
 
-shutdownInProgress = false
-onSigTerm = ->
-  if shutdownInProgress
-    return
-  console.log 'Graceful shutdown ...'
-  shutdownInProgress = true
-  server?.close? ->
-    setTimeout ->
-      process.exit(0)
-      return
-    , 500
-    return
-  return
+let shutdownInProgress = false;
+const onSigTerm = function() {
+  if (shutdownInProgress) {
+    return;
+  }
+  console.log('Graceful shutdown ...');
+  shutdownInProgress = true;
+  __guardMethod__(server, 'close', o => o.close(function() {
+    setTimeout(function() {
+      process.exit(0);
+    }
+    , 500);
+  }));
+};
 
 
-# graceful shutdown
-process.on 'SIGTERM', onSigTerm
+// graceful shutdown
+process.on('SIGTERM', onSigTerm);
 
-server = app.listen app.get('port'), ->
-  debug 'Express server listening on port ' + server.address().port
+var server = app.listen(app.get('port'), () => debug(`Express server listening on port ${server.address().port}`));
+
+function __guardMethod__(obj, methodName, transform) {
+  if (typeof obj !== 'undefined' && obj !== null && typeof obj[methodName] === 'function') {
+    return transform(obj, methodName);
+  } else {
+    return undefined;
+  }
+}

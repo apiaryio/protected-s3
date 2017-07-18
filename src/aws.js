@@ -1,15 +1,17 @@
-knox = require 'knox'
+const knox = require('knox');
 
-clients = {}
+const clients = {};
 
-getFile = (bucket, fileName, cb) ->
-  clients[bucket] ?= knox.createClient
-    key:    process.env.ACCESS_KEY
-    secret: process.env.SECRET_KEY
-    bucket: bucket
+const getFile = function(bucket, fileName, cb) {
+  if (clients[bucket] == null) { clients[bucket] = knox.createClient({
+    key:    process.env.ACCESS_KEY,
+    secret: process.env.SECRET_KEY,
+    bucket
+  }); }
 
-  clients[bucket].getFile "/#{fileName}", cb
+  return clients[bucket].getFile(`/${fileName}`, cb);
+};
 
 module.exports = {
   getFile
-}
+};

@@ -1,41 +1,47 @@
-express        = require 'express'
+const express        = require('express');
 
-{
+const {
   getFile
-  #getFiles
-} = require '../src/aws'
+  //getFiles
+} = require('../src/aws');
 
-{ensureLoggedIn}        = require 'connect-ensure-login'
+const {ensureLoggedIn}        = require('connect-ensure-login');
 
-BUCKETS = (i.trim() for i in process.env.BUCKETS.split ',')
+const BUCKETS = (Array.from(process.env.BUCKETS.split(',')).map((i) => i.trim()));
 
 
-router = express.Router()
+const router = express.Router();
 
-router.get '/buckets', ensureLoggedIn('/index'), (req, res) ->
-  if BUCKETS.length > 1
-    res.render 'buckets',
-      title:   'List of exposed sites'
+router.get('/buckets', ensureLoggedIn('/index'), function(req, res) {
+  if (BUCKETS.length > 1) {
+    return res.render('buckets', {
+      title:   'List of exposed sites',
       buckets: BUCKETS
-  else
-    res.redirect '/content/'
+    }
+    );
+  } else {
+    return res.redirect('/content/');
+  }
+});
 
-returnFile = (bucket) -> (req, res) ->
-  fileName = req.params[0] or 'index.html'
+const returnFile = bucket => function(req, res) {
+  const fileName = req.params[0] || 'index.html';
 
-  getFile bucket, fileName, (err, awsRes) ->
-    if err
-      console.error "Cannot retrieve file: ", err
-      return res.render 'error',
-          message: "Cannot retrieve file: ", err.message
-          error: {}
-    else
-      res.set awsRes.headers
-      awsRes.pipe res
+  return getFile(bucket, fileName, function(err, awsRes) {
+    if (err) {
+      console.error("Cannot retrieve file: ", err);
+      return res.render('error',
+          {message: "Cannot retrieve file: "}, err.message,
+          {error: {}});
+    } else {
+      res.set(awsRes.headers);
+      return awsRes.pipe(res);
+    }
+  });
+} ;
 
-router.get '/content/*', ensureLoggedIn('/index'), returnFile BUCKETS[0]
+router.get('/content/*', ensureLoggedIn('/index'), returnFile(BUCKETS[0]));
 
-router.get '/buckets/:bucket/*', ensureLoggedIn('/index'), (req, res) ->
-  returnFile(req.params.bucket)(req, res)
+router.get('/buckets/:bucket/*', ensureLoggedIn('/index'), (req, res) => returnFile(req.params.bucket)(req, res));
 
-module.exports = router
+module.exports = router;

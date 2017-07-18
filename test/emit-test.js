@@ -1,8 +1,9 @@
-{assert}   = require 'chai'
+const {assert}   = require('chai');
 
-describe 'Basic Test', ->
-  stream   = undefined
-  uploader = undefined
+describe('Basic Test', function() {
+  const stream   = undefined;
+  const uploader = undefined;
 
 
-  it 'is OK', -> assert.ok true
+  return it('is OK', () => assert.ok(true));
+});
