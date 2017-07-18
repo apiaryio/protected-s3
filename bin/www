@@ -2,7 +2,7 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
 const debug = require('debug')('protected-s3');
-const app = require('../app.coffee');
+const app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
 
