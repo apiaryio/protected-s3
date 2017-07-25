@@ -5,7 +5,7 @@ const mimelib = require('mimelib');
 const crypto = require('crypto');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const OAuth2Strategy = require('passport-oauth2').Strategy;
+const OracleIDCSStrategy = require('@apiaryio/passport-oauth2-idcs');
 
 const router = express.Router();
 
@@ -104,47 +104,17 @@ if (USE_ORACLE_SSO) {
   const ORACLE_CLIENT_ID = process.env.ORACLE_CLIENT_ID;
   const ORACLE_CLIENT_SECRET = process.env.ORACLE_CLIENT_SECRET;
 
-  const oracleOAuth2Strategy = new OAuth2Strategy({
-    authorizationURL: `${ORACLE_BASE_URL}/oauth2/v1/authorize`,
-    tokenURL: `${ORACLE_BASE_URL}/oauth2/v1/token`,
-    userInfoURL: `${ORACLE_BASE_URL}/oauth2/v1/userinfo`,
+  const oracleIdcsStrategy = new OracleIDCSStrategy({
+    tenantBaseURL: ORACLE_BASE_URL,
     clientID: ORACLE_CLIENT_ID,
     clientSecret: ORACLE_CLIENT_SECRET,
     callbackURL: `${DOMAIN}/auth/oracle/return`,
-    scope: 'openid email',
-    state: true,
-    customHeaders: {
-      Authorization: 'Basic '+ new Buffer(`${ORACLE_CLIENT_ID}:${ORACLE_CLIENT_SECRET}`).toString('base64'),
-    },
   }, oAuth2Callback);
 
-  oracleOAuth2Strategy.userProfile = function(accessToken, cb) {
-    const userInfoURL = `${ORACLE_BASE_URL}/oauth2/v1/userinfo`;
-    const headers = {
-      'Authorization': this._oauth2.buildAuthHeader(accessToken),
-      'Accept': 'application/json',
-    };
+  passport.use(oracleIdcsStrategy);
 
-    this._oauth2._request('GET', userInfoURL, headers, null, accessToken, (error, body, res) => {
-      debug('userInfoURL response body', { error, body });
-
-      if (error) {
-        debug('Get profile info error', { error });
-        cb(error);
-      } else {
-        const profile = JSON.parse(body);
-        profile.id = crypto.createHash('md5').update(profile.email).digest('hex');
-
-        debug('Get profile info success: ', { profile });
-        cb(null, profile);
-      }
-    });
-  };
-
-  passport.use('oracle', oracleOAuth2Strategy);
-
-  router.get('/auth/oracle', passport.authenticate('oracle'));
-  router.get('/auth/oracle/return', passport.authenticate('oracle', {
+  router.get('/auth/oracle', passport.authenticate('idcs'));
+  router.get('/auth/oracle/return', passport.authenticate('idcs', {
     successReturnToOrRedirect: '/buckets/',
     failureRedirect: '/',
   }));

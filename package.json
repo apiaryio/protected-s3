@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "author": "Lukas Linhart <bugs@almad.net>",
   "dependencies": {
+    "@apiaryio/passport-oauth2-idcs": "^1.0.0",
     "body-parser": "^1.17.2",
     "coffee-script": "^1.7.0",
     "connect-ensure-login": "^0.1.1",
@@ -18,7 +19,6 @@
     "passport": "~0.2.0",
     "passport-google": "~0.3.0",
     "passport-google-oauth": "~0.1.5",
-    "passport-oauth2": "^1.4.0",
     "pug": "~2.0.0-beta6",
     "redis-url": "^1.2.0",
     "snyk": "^1.36.2",
