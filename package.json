@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "author": "Lukas Linhart <bugs@almad.net>",
   "dependencies": {
+    "@apiaryio/passport-oauth2-idcs": "^1.0.0",
     "body-parser": "^1.17.2",
     "coffee-script": "^1.7.0",
     "connect-ensure-login": "^0.1.1",
