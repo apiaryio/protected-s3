@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.10.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:node-uuid:20160328':
@@ -14,6 +14,33 @@ ignore:
     - knox > debug > ms:
         reason: Not work
         expires: '2017-08-24T11:24:39.977Z'
+  'npm:constantinople:20180421':
+    - pug > pug-code-gen > pug-attrs > constantinople:
+        reason: None given
+        expires: '2019-01-20T13:37:15.160Z'
+  'npm:cryptiles:20180710':
+    - request > hawk > cryptiles:
+        reason: No patch
+        expires: '2019-01-20T13:37:15.160Z'
+  'npm:debug:20170905':
+    - nib > stylus > debug:
+        reason: No patch
+        expires: '2019-01-20T13:37:15.160Z'
+    - knox > debug:
+        reason: No patch
+        expires: '2019-01-20T13:37:15.160Z'
+  'npm:extend:20180424':
+    - request > extend:
+        reason: No patch
+        expires: '2019-01-20T13:37:15.160Z'
+  'npm:open:20180512':
+    - snyk > open:
+        reason: No patch
+        expires: '2019-01-20T13:37:15.160Z'
+  'npm:sshpk:20180409':
+    - request > http-signature > sshpk:
+        reason: No patch
+        expires: '2019-01-20T13:37:15.161Z'
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:minimatch:20160620':
@@ -46,3 +73,15 @@ patch:
   'npm:tar:20151103':
     - snyk > inquirer > external-editor > spawn-sync > try-thread-sleep > thread-sleep > node-pre-gyp > tar-pack > tar:
         patched: '2016-07-21T12:10:07.504Z'
+  'npm:hoek:20180212':
+    - request > hawk > sntp > hoek:
+        patched: '2018-12-21T13:35:42.058Z'
+    - request > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-21T13:35:42.058Z'
+    - request > hawk > hoek:
+        patched: '2018-12-21T13:35:42.058Z'
+    - request > hawk > boom > hoek:
+        patched: '2018-12-21T13:35:42.058Z'
+  'npm:stringstream:20180511':
+    - request > stringstream:
+        patched: '2018-12-21T13:35:42.058Z'
