@@ -1,0 +1,17 @@
+build:
+  box: node:4
+  steps:
+    - npm-install
+    - script:
+        name: Test
+        code: npm run test
+
+notify:
+  box: apiaryio/alpine-bash-curl
+  steps:
+    - script:
+      name: dummy step
+      code: echo this is a dummy step
+  after-steps:
+    - apipcs/slack-notifier:
+      url: $SLACK_URL
