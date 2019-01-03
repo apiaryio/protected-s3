@@ -61,7 +61,8 @@
   },
   "main": "lib/",
   "engines": {
-    "node": "4.8.4"
+    "node": ">=8.12.0",
+    "npm": ">=6.4.1"
   },
   "snyk": true
 }

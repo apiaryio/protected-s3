@@ -1,7 +1,10 @@
 build:
-  box: node:4
+  box: node:8
   steps:
     - npm-install
+    - script:
+        name: Install Snyk
+        code: npm install -g snyk
     - script:
         name: Test
         code: npm run test
