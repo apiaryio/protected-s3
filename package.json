@@ -20,16 +20,15 @@
     "passport-google-oauth": "~0.1.5",
     "pug": "^2.0.0",
     "redis-url": "^1.2.0",
-    "snyk": "^1.67.0",
     "static-favicon": "~1.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "gulp": "~3.8.6",
+    "gulp": "^4.0.0",
     "gulp-coffeelint": "~0.3.2",
     "gulp-mocha": "~0.5.1",
     "gulp-watch": "~0.6.8",
-    "mocha": "~1.18.2",
+    "mocha": "^5.2.0",
     "nib": "",
     "request": "",
     "sinon": "~1.9.1",
@@ -41,10 +40,9 @@
     "s3 streaming upload"
   ],
   "scripts": {
-    "prepublish": "npm run snyk-protect; scripts/build",
+    "prepublish": "scripts/build",
     "start": "node ./bin/www",
-    "test": "snyk test && ./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\"",
-    "snyk-protect": "snyk protect"
+    "test": "./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\""
   },
   "licenses": [
     {
@@ -63,6 +61,5 @@
   "engines": {
     "node": ">=8.12.0",
     "npm": ">=6.4.1"
-  },
-  "snyk": true
+  }
 }
