@@ -3,9 +3,6 @@ build:
   steps:
     - npm-install
     - script:
-        name: Install Snyk
-        code: npm install -g snyk
-    - script:
         name: Test
         code: npm run test
 
