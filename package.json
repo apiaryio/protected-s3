@@ -41,10 +41,9 @@
     "s3 streaming upload"
   ],
   "scripts": {
-    "prepublish": "npm run snyk-protect; scripts/build",
+    "prepublish": "scripts/build",
     "start": "node ./bin/www",
-    "test": "snyk test && ./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\"",
-    "snyk-protect": "snyk protect"
+    "test": "./node_modules/.bin/mocha --compilers \"coffee:coffee-script/register\""
   },
   "licenses": [
     {
@@ -63,6 +62,5 @@
   "engines": {
     "node": ">=8.12.0",
     "npm": ">=6.4.1"
-  },
-  "snyk": true
+  }
 }
